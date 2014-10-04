@@ -15,7 +15,7 @@ feature "user adds manufacturer", %{
     to the index of manufacturers
   } do
   before :each do
-    visit "/"
+    visit manufacturers_path
     click_on "New Manufacturer"
   end
 
