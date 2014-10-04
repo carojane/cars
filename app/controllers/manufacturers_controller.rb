@@ -12,13 +12,14 @@ class ManufacturersController < ApplicationController
 
     if @manufacturer.save
       redirect_to manufacturers_path,
-        notice: "Manufacturer successfully created."
+                  notice: "Manufacturer successfully created."
     else
       render "new"
     end
   end
 
   private
+
     def manufacturer_params
       params.require(:manufacturer).permit(
         :name,
