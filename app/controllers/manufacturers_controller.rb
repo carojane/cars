@@ -3,5 +3,11 @@ class ManufacturersController < ApplicationController
   end
 
   def new
+    @manufacturer = Manufacturer.new
+  end
+
+  def create
+    @manufacturer = Manufacturer.new
+
   end
 end

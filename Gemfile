@@ -43,3 +43,5 @@ group :test do
   gem 'coveralls', require: false
 end
 gem "launchcop"
+gem "simple_form"
+gem "country_select"
