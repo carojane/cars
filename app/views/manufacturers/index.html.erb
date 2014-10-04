@@ -1,1 +1,14 @@
-<h1><%= link_to "New Manufacturer", new_manufacturer_path %></h1>
+<h1>Manufacturers</h1>
+<%= link_to "New Manufacturer", new_manufacturer_path %>
+<table>
+<tr>
+  <th>Make</th>
+  <th>Country</th>
+</tr>
+<% @manufacturers.each do |make| %>
+<tr>
+  <td><%= make.name %></td>
+  <td><%= make.country %></td>
+</tr>
+<% end %>
+</table>
