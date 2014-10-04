@@ -21,17 +21,20 @@ feature "user adds manufacturer", %{
 
   scenario "user specifies name and country" do
     fill_in "Name", with: "Volkswagon"
-    fill_in "Country", with: "Germany"
-    click_on "Submit"
+    select "Germany", from: "Country"
+    click_on "Create Manufacturer"
   end
 
   scenario "user is unsuccessful at creating manufacturer" do
-    expect(click_on "Submit").to raise_error
+    click_on "Create Manufacturer"
+    expect(page).to have_content("can't be blank")
   end
 
   scenario "user successfully creates manufacturer" do
     fill_in "Name", with: "Volkswagon"
-    fill_in "Country", with: "Germany"
-    expect(click_on "Submit").to redirect_to manufacturers_path
+    select "Germany", from: "Country"
+    click_on "Create Manufacturer"
+    expect(page).to have_content("Manufacturer successfully created.")
+    expect(page).to have_content("Volkswagon")
   end
 end
