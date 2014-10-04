@@ -34,5 +34,12 @@ end
 # gem 'debugger', group: [:development, :test]
 group :development, :test do
   gem 'rspec-rails'
+  gem 'capybara'
+  gem 'factory_girl_rails'
+  gem 'pry-rails'
+end
+group :test do
+  gem "nyan-cat-formatter"
+  gem 'coveralls', require: false
 end
 gem "launchcop"
