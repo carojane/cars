@@ -1,1 +1,22 @@
-<h1><%= link_to "New Car", new_car_path %></h1>
+<h1>Cars</h1>
+<%= link_to "New Car", new_car_path %>
+
+<table>
+  <tr>
+    <th>Manufacturer</th>
+    <th>Color</th>
+    <th>Year</th>
+    <th>Mileage</th>
+    <th>Description</th>
+  </tr>
+  <% @cars.each do |car| %>
+  <tr>
+    <td><%= car.manufacturer.name %></td>
+    <td><%= car.color %></td>
+    <td><%= car.year %></td>
+    <td><%= car.mileage %></td>
+    <td><%= car.description %></td>
+  </tr>
+  <% end %>
+  </tr>
+</table>
