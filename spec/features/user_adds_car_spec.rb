@@ -37,16 +37,16 @@ feature "user adds car", %{
     end
 
     scenario "user specifies manufacturer, color, year, mileage" do
-      expect{ click_on "Create Car" }.to change{ Car.count }.by(1)
+      expect { click_on "Create Car" }.to change { Car.count }.by(1)
     end
 
     scenario "car has optional description" do
       fill_in "Description", with: @car.description
-      expect{ click_on "Create Car" }.to change{ Car.count }.by(1)
+      expect { click_on "Create Car" }.to change { Car.count }.by(1)
     end
 
     scenario "user successfully creates car" do
-      expect{ click_on "Create Car" }.to change{ Car.count }.by(1)
+      expect { click_on "Create Car" }.to change { Car.count }.by(1)
       expect(page).to have_content("Car successfully created.")
     end
 
@@ -62,7 +62,7 @@ feature "user adds car", %{
   end
 
   scenario "user is unsuccessful at creating car" do
-      expect{ click_on "Create Car" }.to change{ Car.count }.by(0)
-      expect(page).to have_content("can't be blank")
+    expect { click_on "Create Car" }.to change { Car.count }.by(0)
+    expect(page).to have_content("can't be blank")
   end
 end

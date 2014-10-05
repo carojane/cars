@@ -26,14 +26,15 @@ feature "user adds manufacturer", %{
   end
 
   scenario "user is unsuccessful at creating manufacturer" do
-    click_on "Create Manufacturer"
+    make_count = Manufacturer.count
+    expect { click_on "Create" }.to change { make_count }.by(0)
     expect(page).to have_content("can't be blank")
   end
 
   scenario "user successfully creates manufacturer" do
     fill_in "Name", with: "Volkswagon"
     select "Germany", from: "Country"
-    click_on "Create Manufacturer"
+    expect { click_on "Create" }.to change { Manufacturer.count }.by(1)
     expect(page).to have_content("Manufacturer successfully created.")
     expect(page).to have_content("Volkswagon")
   end
