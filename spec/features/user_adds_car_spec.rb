@@ -20,49 +20,49 @@ feature "user adds car", %{
   Upon successfully creating a car,
     I am redirected back to the index of cars.
   } do
+  let(:manufacturer) { FactoryGirl.create(:manufacturer) }
+
   before :each do
+    @car = FactoryGirl.create(:car, manufacturer: manufacturer)
     visit cars_path
     click_on "New Car"
   end
 
-  scenario "user specifies manufacturer, color, year, mileage" do
-    select "Volkswagen", from: "Manufacturer"
-    fill_in "Color", with: "Red"
-    select "1991", from: "Year"
-    fill_in "Mileage", with: "100,000"
-    click_on "Create Car"
+  context "successful car saves" do
+    before :each do
+      select @car.manufacturer.name, from: "Manufacturer"
+      fill_in "Color", with: @car.color
+      select @car.year, from: "Year"
+      fill_in "Mileage", with: @car.mileage
+    end
+
+    scenario "user specifies manufacturer, color, year, mileage" do
+      expect{ click_on "Create Car" }.to change{ Car.count }.by(1)
+    end
+
+    scenario "car has optional description" do
+      fill_in "Description", with: @car.description
+      expect{ click_on "Create Car" }.to change{ Car.count }.by(1)
+    end
+
+    scenario "user successfully creates car" do
+      expect{ click_on "Create Car" }.to change{ Car.count }.by(1)
+      expect(page).to have_content("Car successfully created.")
+    end
+
+    scenario "user is redirected to car index" do
+      click_on "Create Car"
+      expect(page.current_path).to eq(cars_path)
+    end
   end
 
   scenario "car year is not before 1920" do
-    select "Ford", from: "Manufacturer"
-    fill_in "Color", with: "Black"
-    select "1901", from: "Year"
-    fill_in "Mileage", with: "unknown"
-    click_on "Create Car"
-    expect(page).to have_content("")
-  end
-
-  scenario "car has optional description" do
-    select "Volkswagen", from: "Manufacturer"
-    fill_in "Color", with: "Red"
-    select "1991", from: "Year"
-    fill_in "Mileage", with: "100,000"
-    fill_in "Description", with: "Cabriolet"
-    click_on "Create Car"
-  end
-
-  scenario "user successfully creates car" do
-    select "Volkswagen", from: "Manufacturer"
-    fill_in "Color", with: "Red"
-    select "1991", from: "Year"
-    fill_in "Mileage", with: "100,000"
-    click_on "Create Car"
-    expect()
+    expect(page).to_not have_select("Year",
+                                    with_options: ["1919"])
   end
 
   scenario "user is unsuccessful at creating car" do
-  end
-
-  scenario "user is redirected to car index" do
+      expect{ click_on "Create Car" }.to change{ Car.count }.by(0)
+      expect(page).to have_content("can't be blank")
   end
 end
