@@ -37,6 +37,7 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'pry-rails'
+  gem "random-word"
 end
 group :test do
   gem "nyan-cat-formatter"
