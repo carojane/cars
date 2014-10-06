@@ -20,6 +20,7 @@ feature "user adds car", %{
   Upon successfully creating a car,
     I am redirected back to the index of cars.
   } do
+
   let(:manufacturer) { FactoryGirl.create(:manufacturer) }
 
   before :each do
@@ -38,21 +39,13 @@ feature "user adds car", %{
 
     scenario "user specifies manufacturer, color, year, mileage" do
       expect { click_on "Create Car" }.to change { Car.count }.by(1)
+      expect(page).to have_content("Car successfully created.")
+      expect(page.current_path).to eq(cars_path)
     end
 
     scenario "car has optional description" do
       fill_in "Description", with: @car.description
       expect { click_on "Create Car" }.to change { Car.count }.by(1)
-    end
-
-    scenario "user successfully creates car" do
-      expect { click_on "Create Car" }.to change { Car.count }.by(1)
-      expect(page).to have_content("Car successfully created.")
-    end
-
-    scenario "user is redirected to car index" do
-      click_on "Create Car"
-      expect(page.current_path).to eq(cars_path)
     end
   end
 
@@ -61,7 +54,7 @@ feature "user adds car", %{
                                     with_options: ["1919"])
   end
 
-  scenario "user is unsuccessful at creating car" do
+  scenario "user does not provide required attributes" do
     expect { click_on "Create Car" }.to change { Car.count }.by(0)
     expect(page).to have_content("can't be blank")
   end
