@@ -14,18 +14,13 @@ feature "user adds manufacturer", %{
     the manufacturer is recorded and I am redirected
     to the index of manufacturers
   } do
+
   before :each do
     visit manufacturers_path
     click_on "New Manufacturer"
   end
 
-  scenario "user specifies name and country" do
-    fill_in "Name", with: "Volkswagon"
-    select "Germany", from: "Country"
-    click_on "Create Manufacturer"
-  end
-
-  scenario "user is unsuccessful at creating manufacturer" do
+  scenario "user does not provide required attributes" do
     make_count = Manufacturer.count
     expect { click_on "Create" }.to change { make_count }.by(0)
     expect(page).to have_content("can't be blank")
